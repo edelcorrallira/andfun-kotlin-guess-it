@@ -70,12 +70,14 @@ class GameFragment : Fragment() {
 
     private fun onSkip() {
         viewModel.onSkip()
+        if(viewModel.isGameFinished()) gameFinished()
         updateWordText()
         updateScoreText()
     }
 
     private fun onCorrect() {
         viewModel.onCorrect()
+        if(viewModel.isGameFinished()) gameFinished()
         updateWordText()
         updateScoreText()
     }
