@@ -15,7 +15,7 @@ class GameViewModel : ViewModel(){
         // This is the number of milliseconds in a second
         const val ONE_SECOND = 1000L
         // This is the total time of the game
-        const val COUNTDOWN_TIME = 60000L
+        const val COUNTDOWN_TIME = 6000L
     }
 
     // The list of words - the front of the list is the next word to guess
