@@ -58,6 +58,12 @@ class GameFragment : Fragment() {
         viewModel.word.observe(this, Observer {
             binding.wordText.text = viewModel.word.value
         })
+        viewModel.eventGameFinish.observe(this, Observer { hasFinished->
+            if(hasFinished) {
+                gameFinished()
+                viewModel.onGameFinishCOmplete()
+            }
+        })
         return binding.root
 
     }
@@ -75,12 +81,10 @@ class GameFragment : Fragment() {
 
     private fun onSkip() {
         viewModel.onSkip()
-        if(viewModel.isGameFinished()) gameFinished()
     }
 
     private fun onCorrect() {
         viewModel.onCorrect()
-        if(viewModel.isGameFinished()) gameFinished()
     }
 
 }
