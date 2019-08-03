@@ -51,8 +51,10 @@ class GameFragment : Fragment() {
                 false
         )
 
-        binding.correctButton.setOnClickListener { onCorrect() }
-        binding.skipButton.setOnClickListener { onSkip() }
+        //Linking view model
+        binding.gameViewModel = viewModel
+
+        //Live data observation relationship
         viewModel.score.observe(this, Observer {
             newScore -> binding.scoreText.text = newScore.toString()
         })
@@ -79,17 +81,6 @@ class GameFragment : Fragment() {
     private fun gameFinished() {
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
         findNavController(this).navigate(action)
-    }
-
-
-    /** Methods for buttons presses **/
-
-    private fun onSkip() {
-        viewModel.onSkip()
-    }
-
-    private fun onCorrect() {
-        viewModel.onCorrect()
     }
 
 }
