@@ -53,18 +53,7 @@ class GameFragment : Fragment() {
 
         //Linking view model
         binding.gameViewModel = viewModel
-
-        //Live data observation relationship
-        viewModel.score.observe(this, Observer {
-            newScore -> binding.scoreText.text = newScore.toString()
-        })
-        viewModel.word.observe(this, Observer {
-            binding.wordText.text = viewModel.word.value
-        })
-        viewModel.countDown.observe(this, Observer {
-            binding.timerText.text=
-                    DateUtils.formatElapsedTime(viewModel.countDown.value ?: 0)
-        })
+        binding.setLifecycleOwner(this)
         viewModel.eventGameFinish.observe(this, Observer { hasFinished->
             if(hasFinished) {
                 gameFinished()
