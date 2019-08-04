@@ -16,12 +16,16 @@
 
 package com.example.android.guesstheword.screens.game
 
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -54,6 +58,11 @@ class GameFragment : Fragment() {
         //Linking view model
         binding.gameViewModel = viewModel
         binding.setLifecycleOwner(this)
+        viewModel.eventGameBuzz.observe(this, Observer { buzzEvent ->
+            if(buzzEvent.pattern.size>1) {
+                buzz(buzzEvent.pattern)
+            }
+        })
         viewModel.eventGameFinish.observe(this, Observer { hasFinished->
             if(hasFinished) {
                 gameFinished()
@@ -72,4 +81,19 @@ class GameFragment : Fragment() {
         findNavController(this).navigate(action)
     }
 
+    /**
+     * Buzz activating method
+     */
+    private fun buzz(pattern: LongArray) {
+        val buzzer = activity?.getSystemService<Vibrator>()
+
+        buzzer?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                //deprecated in API 26
+                buzzer.vibrate(pattern, -1)
+            }
+        }
+    }
 }
